@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anastasia & Yiannis | 26.09.2026</title>
+    <link rel="icon" href="marriage.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Arima:wght@400;500;600&family=Montserrat:wght@300;400;500;600&family=Roboto:wght@300;400&display=swap&subset=greek,latin" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+    /* ── RESET ── */
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    /* ══════════════════════════════════════
+    ENVELOPE PAGE
+    ══════════════════════════════════════ */
+    body {
+    background: #e8e5e0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 30vh;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+    }
+
+    #fade-overlay {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 1.2s ease;
+    }
+    #fade-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    }
+
+    #envelope-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 80px;
+    }
+
+    .envelope-wrapper {
+    position: relative;
+    width: 480px;
+    height: 320px;
+    }
+
+    canvas#real {
+    display: block;
+    border-radius: 5px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.38);
+    position: relative;
+    z-index: 2;
+    }
+
+    #invitation {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(0px);
+    bottom: 24px;
+    width: 420px;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    }
+
+    #invitation .card-inner {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    }
+
+    /* ══════════════════════════════════════
+    PLACEHOLDER / WEDDING PAGE
+    ══════════════════════════════════════ */
+    #placeholder-page {
+    display: none;
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+    background: var(--cream, #FAF9F6);
+    z-index: 300;
+    }
+    #placeholder-page.show { display: block; }
+
+    /* Wedding page variables */
+    #placeholder-page {
+    --terracotta: #C06C54;
+    --sage: #8A9A5B;
+    --cream: #FAF9F6;
+    --text-dark: #2C2C2C;
+    --text-light: #555555;
+    --white: #FFFFFF;
+    --dark-green: #4A5E3A;
+    }
+
+    #placeholder-page body,
+    #placeholder-page * {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    }
+
+    #placeholder-page h1,
+    #placeholder-page h2,
+    #placeholder-page h3,
+    #placeholder-page h4 {
+    font-family: 'Arima', cursive;
+    color: var(--dark-green);
+    font-weight: 500;
+    }
+
+    /* Nav */
+    #placeholder-page nav {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        background: rgba(250, 249, 246, 0.95);
+        padding: 10px 5%; /* Slightly tighter padding */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        z-index: 1000;
+    }
+    #placeholder-page .logo {
+    font-size: 1.6rem;
+    font-family: 'Arima', cursive;
+    color: var(--dark-green);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    }
+    #placeholder-page .lang-switch {
+    cursor: pointer;
+    border: 1px solid var(--terracotta);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    }
+    #placeholder-page .lang-btn {
+    padding: 5px 15px;
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;
+    }
+    #placeholder-page .lang-btn.active {
+    background-color: var(--terracotta);
+    color: #fff;
+    }
+
+    /* Hero */
+    #placeholder-page header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    padding-top: 80px;
+    background-color: var(--cream);
+    overflow: hidden;
+    }
+    #placeholder-page .hero-image {
+        width: 700px;         /* This makes it significantly smaller and elegant */
+        max-width: 80%;       /* Ensures it fits on mobile screens */
+        height: auto;
+        margin-bottom: 10px;  /* Space between image and names */
+        margin-top: -8px;      /* Resetting this so it doesn't overlap the nav */
+        animation: fadeIn 1s ease-in;
+    }
+    #placeholder-page header h1 {
+    font-size: 4.5rem;
+    margin-bottom: 5px;
+    color: var(--dark-green);
+    line-height: 1.1;
+    }
+    #placeholder-page .date-display {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    font-weight: 500;
+    color: var(--dark-green);
+    font-family: 'Arima', cursive;
+    }
+    @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Countdown */
+    #placeholder-page #countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    }
+    #placeholder-page .cd-box {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid var(--sage);
+    padding: 15px;
+    min-width: 80px;
+    border-radius: 5px;
+    text-align: center;
+    }
+    #placeholder-page .cd-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--terracotta);
+    font-family: 'Arima', cursive;
+    }
+    #placeholder-page .cd-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    }
+
+    /* Sections */
+    #placeholder-page .section {
+    padding: 80px 10%;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    }
+    #placeholder-page .section:nth-child(even) { background-color: white; }
+    #placeholder-page .section h2 {
+    font-size: 3.2rem;
+    margin-bottom: 40px;
+    }
+    #placeholder-page .invite-text {
+    font-size: 1.4rem;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    font-family: 'Arima', cursive;
+    }
+
+    /* RSVP */
+    #placeholder-page .rsvp-info-grid {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    }
+    #placeholder-page .rsvp-info-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    }
+    #placeholder-page .rsvp-info-value {
+    font-size: 1.3rem;
+    font-family: 'Arima', cursive;
+    color: var(--dark-green);
+    }
+    #placeholder-page .rsvp-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    }
+    #placeholder-page .rsvp-choice-btn {
+    padding: 15px 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    border-radius: 4px;
+    }
+    #placeholder-page .btn-yes {
+    background-color: var(--dark-green);
+    color: white;
+    border: 2px solid var(--dark-green);
+    }
+    #placeholder-page .btn-yes:hover { background-color: #3a4a2e; transform: translateY(-2px); }
+    #placeholder-page .btn-no {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 2px solid var(--text-dark);
+    }
+    #placeholder-page .btn-no:hover { background-color: #e0e0e0; transform: translateY(-2px); }
+    #placeholder-page #rsvp-form-container {
+    display: none;
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--cream);
+    padding: 30px;
+    border: 1px solid var(--sage);
+    border-radius: 8px;
+    text-align: left;
+    animation: slideDown 0.5s ease;
+    }
+    @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+    }
+    #placeholder-page .form-group { margin-bottom: 20px; }
+    #placeholder-page .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--dark-green);
+    }
+    #placeholder-page .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    }
+    #placeholder-page .form-input:focus { border-color: var(--terracotta); outline: none; }
+    #placeholder-page .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--terracotta);
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    }
+    #placeholder-page .submit-btn:hover { background-color: #a35640; }
+
+    /* Timeline */
+    #placeholder-page .timeline-item {
+    margin-bottom: 40px;
+    padding: 30px;
+    border-left: 4px solid var(--terracotta);
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 650px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-radius: 0 10px 10px 0;
+    }
+    #placeholder-page .time {
+    font-weight: bold;
+    color: var(--terracotta);
+    margin-bottom: 10px;
+    display: block;
+    font-size: 1.1rem;
+    }
+    #placeholder-page .venue-name {
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+    font-family: 'Arima', cursive;
+    }
+    #placeholder-page .timeline-item p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.05rem;
+    color: #444;
+    margin-top: 10px;
+    }
+    #placeholder-page .address-link {
+    display: inline-block;
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    text-decoration: none;
+    border-bottom: 1px dotted var(--terracotta);
+    transition: 0.3s;
+    }
+    #placeholder-page .address-link:hover { color: var(--terracotta); }
+
+    /* Recommendations */
+    #placeholder-page .rec-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 40px;
+    align-items: center;
+    }
+    #placeholder-page .rec-card {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    text-align: left;
+    }
+    #placeholder-page .rec-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--sage);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Arima', cursive;
+    }
+    #placeholder-page .rec-card ul { list-style: none; }
+    #placeholder-page .rec-card li { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: flex-start; }
+    #placeholder-page .rec-card li i { color: var(--terracotta); margin-right: 10px; margin-top: 4px; font-size: 0.8rem; }
+    #placeholder-page .rec-card a {
+    text-decoration: none;
+    color: var(--dark-green);
+    font-weight: 600;
+    border-bottom: 1px dotted var(--terracotta);
+    transition: 0.3s;
+    }
+    #placeholder-page .rec-card a:hover { color: var(--terracotta); }
+
+    /* Gifts */
+    #placeholder-page .gift-box {
+    border: 2px dashed var(--sage);
+    padding: 40px;
+    margin-top: 20px;
+    display: inline-block;
+    background: var(--cream);
+    border-radius: 10px;
+    }
+    
+    /* Footer */
+    #placeholder-page footer {
+    padding: 40px;
+    text-align: center;
+    background-color: var(--sage);
+    color: white;
+    }
+
+    /* Ensure Icons render correctly */
+    .fa, .fas, .far {
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+    #placeholder-page header h1 { font-size: 3rem; }
+    #placeholder-page .hero-image { width: 70%; margin-top: 0; }
+    #placeholder-page .section { padding: 50px 5%; }
+    #placeholder-page .rsvp-buttons-container { flex-direction: column; align-items: center; }
+    #placeholder-page .rsvp-choice-btn { width: 100%; max-width: 300px; }
+    #placeholder-page .rsvp-info-grid { gap: 20px; flex-direction: column; }
+    }
+    </style>
+</head>
+<body>
+
+<div id="fade-overlay"></div>
+
+<!-- ══ ENVELOPE SCENE ══ -->
+<!-- Envelope Scene -->
+<div id="envelope-scene">
+    <div class="envelope-wrapper" id="env-wrapper">
+        <!-- Invitation card (behind envelope, rises up) -->
+        <div id="invitation">
+            <div class="card-inner">
+            <img src="/Users/anastasia/Desktop/save_the_date.png" style="width:100%; display:block; border-radius:4px;">
+            </div>
+        </div>
+  
+    <!-- Envelope canvas -->
+    <canvas id="real" width="480" height="320"></canvas>
+    </div>
+</div>
+
+<!-- ══ WEDDING / PLACEHOLDER PAGE ══ -->
+<!-- Placeholder page -->
+<div id="placeholder-page">
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Anastasia & Yiannis | 26.09.2026</title>
+        
+        <link rel="icon" href="marriage.png" type="image/png">
+    
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Arima:wght@400;500;600&family=Montserrat:wght@300;400;500;600&family=Roboto:wght@300;400&display=swap&subset=greek,latin" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css">
+
+    
+        <style>
+            :root {
+                /* Theme Colors */
+                --terracotta: #C06C54;
+                --sage: #8A9A5B;
+                --cream: #FAF9F6;
+                --text-dark: #2C2C2C; 
+                --text-light: #555555;
+                --white: #FFFFFF;
+                --dark-green: #4A5E3A; 
+            }
+    
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            
+            body {
+                font-family: 'Montserrat', sans-serif;
+                background-color: var(--cream);
+                color: var(--text-dark);
+                line-height: 1.6;
+                font-synthesis: none; 
+                -webkit-font-smoothing: antialiased;
+            }
+    
+            h1, h2, h3, h4 {
+                font-family: 'Arima', cursive;
+                color: var(--dark-green);
+                font-weight: 500; 
+            }
+    
+            /* --- Navigation --- */
+            nav {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background: rgba(250, 249, 246, 0.95);
+                padding: 15px 5%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                z-index: 1000;
+            }
+    
+            .logo { 
+                font-size: 1.6rem; 
+                font-family: 'Arima', cursive;
+                color: var(--dark-green); 
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+            }
+    
+            .lang-switch {
+                cursor: pointer;
+                border: 1px solid var(--terracotta);
+                border-radius: 20px;
+                overflow: hidden;
+                display: flex;
+            }
+    
+            .lang-btn {
+                padding: 5px 15px;
+                border: none;
+                background: transparent;
+                font-size: 0.9rem;
+                cursor: pointer;
+                transition: 0.3s;
+                font-family: 'Montserrat', sans-serif;
+            }
+    
+            .lang-btn.active {
+                background-color: var(--terracotta);
+                color: var(--white);
+            }
+    
+            /* --- Hero Section --- */
+            header {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+                padding-top: 80px;
+                background-color: var(--cream); 
+                overflow: hidden;
+            }
+    
+            .hero-image {
+                width: 200px;
+                max-width: 70%;
+                height: auto;
+                margin-bottom: 0px;
+                margin-top: -60px;   
+                animation: fadeIn 2s ease-in;
+            }
+    
+            header h1 {
+                font-size: 4.5rem;
+                margin-bottom: 5px;
+                color: var(--dark-green);
+                line-height: 1.1;
+                z-index: 2;
+                font-family: 'Arima', cursive;
+            }
+    
+            .date-display {
+                font-size: 2rem;
+                letter-spacing: 2px;
+                margin-top: 10px;
+                font-weight: 500;
+                color: var(--dark-green);
+                font-family: 'Arima', cursive;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+    
+            /* --- COUNTDOWN --- */
+            #countdown {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 40px;
+                flex-wrap: wrap;
+            }
+    
+            .cd-box {
+                background: rgba(255,255,255,0.8);
+                border: 1px solid var(--sage);
+                padding: 15px;
+                min-width: 80px;
+                border-radius: 5px;
+                text-align: center;
+            }
+    
+            .cd-number {
+                display: block;
+                font-size: 2rem;
+                font-weight: 500;
+                color: var(--terracotta);
+                font-family: 'Arima', cursive;
+            }
+    
+            .cd-label {
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--text-light);
+                font-family: 'Montserrat', sans-serif;
+            }
+    
+            /* --- Content Sections --- */
+            .section {
+                padding: 80px 10%;
+                max-width: 1000px;
+                margin: 0 auto;
+                text-align: center;
+            }
+    
+            .section:nth-child(even) { background-color: white; }
+    
+            .section h2 {
+                font-size: 3.2rem;
+                margin-bottom: 40px;
+                color: var(--dark-green); 
+            }
+    
+            .invite-text {
+                font-size: 1.4rem;
+                max-width: 700px;
+                margin: 0 auto 40px auto;
+                font-family: 'Arima', cursive; 
+            }
+    
+            /* --- RSVP FORM VISUALS --- */
+            .rsvp-info-grid {
+                display: flex;
+                justify-content: center;
+                gap: 50px;
+                margin-bottom: 40px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+    
+            .rsvp-info-item {
+                text-align: center;
+            }
+    
+            .rsvp-info-label {
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--text-light);
+                margin-bottom: 5px;
+            }
+    
+            .rsvp-info-value {
+                font-size: 1.3rem;
+                font-family: 'Arima', cursive;
+                color: var(--dark-green);
+            }
+    
+            /* --- RSVP FORM STYLES --- */
+            .rsvp-buttons-container {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin-bottom: 30px;
+                flex-wrap: wrap;
+            }
+    
+            .rsvp-choice-btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: 0.3s;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 600;
+                border-radius: 4px;
+            }
+    
+            .btn-yes {
+                background-color: var(--dark-green); 
+                color: white;
+                border: 2px solid var(--dark-green);
+            }
+            .btn-yes:hover, .btn-yes.selected {
+                background-color: #3a4a2e;
+                transform: translateY(-2px);
+            }
+    
+            .btn-no {
+                background-color: transparent;
+                color: var(--text-dark);
+                border: 2px solid var(--text-dark);
+            }
+            .btn-no:hover, .btn-no.selected {
+                background-color: #e0e0e0;
+                transform: translateY(-2px);
+            }
+    
+            #rsvp-form-container {
+                display: none;
+                max-width: 500px;
+                margin: 0 auto;
+                background: var(--cream);
+                padding: 30px;
+                border: 1px solid var(--sage);
+                border-radius: 8px;
+                text-align: left;
+                animation: slideDown 0.5s ease;
+            }
+    
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+    
+            .form-group { margin-bottom: 20px; }
+            
+            .form-label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: var(--dark-green);
+            }
+    
+            .form-input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-family: 'Montserrat', sans-serif;
+            }
+    
+            .form-input:focus {
+                border-color: var(--terracotta);
+                outline: none;
+            }
+    
+            .submit-btn {
+                width: 100%;
+                padding: 15px;
+                background-color: var(--terracotta);
+                color: white;
+                border: none;
+                font-weight: bold;
+                cursor: pointer;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                transition: 0.3s;
+            }
+            .submit-btn:hover { background-color: #a35640; }
+    
+            /* --- Timeline --- */
+            .timeline-item {
+                margin-bottom: 40px;
+                padding: 30px;
+                border-left: 4px solid var(--terracotta);
+                text-align: left;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 650px;
+                background: #fff;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+                border-radius: 0 10px 10px 0;
+                position: relative;
+            }
+    
+            .time { font-weight: bold; color: var(--terracotta); margin-bottom: 10px; display: block; font-size: 1.1rem; }
+            .time i { margin-right: 8px; }
+            
+            .venue-name { 
+                font-weight: 500; 
+                font-size: 1.6rem; 
+                margin-bottom: 5px; 
+                font-family: 'Arima', cursive;
+            }
+    
+            /* SIMPLE FONT FOR DESCRIPTION */
+            .timeline-item p {
+                font-family: 'Roboto', sans-serif; 
+                font-size: 1.05rem;
+                color: #444;
+                margin-top: 10px;
+            }
+    
+            .address-link {
+                display: inline-block;
+                font-size: 1rem;
+                color: var(--text-light); 
+                margin-bottom: 15px;
+                text-decoration: none;
+                font-style: normal; 
+                border-bottom: 1px dotted var(--terracotta); 
+                transition: 0.3s;
+            }
+            
+            .address-link:hover {
+                color: var(--terracotta);
+                border-bottom: 1px solid var(--terracotta);
+            }
+    
+            /* --- Lists (Recommendations) - VERTICAL LAYOUT --- */
+            .rec-container {
+                display: flex;
+                flex-direction: column;
+                gap: 40px; 
+                margin-top: 40px;
+                align-items: center; 
+            }
+            
+            .rec-card {
+                width: 100%;
+                max-width: 650px; 
+                background: white;
+                padding: 30px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+                border-radius: 8px;
+                text-align: left;
+            }
+    
+            .rec-card h3 { 
+                font-size: 1.8rem; 
+                margin-bottom: 20px; 
+                border-bottom: 2px solid var(--sage); 
+                padding-bottom: 10px; 
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-family: 'Arima', cursive;
+            }
+            
+            .rec-card ul { list-style: none; }
+            .rec-card li { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: flex-start;}
+            .rec-card li i { color: var(--terracotta); margin-right: 10px; margin-top: 4px; font-size: 0.8rem;}
+    
+            /* --- Gifts --- */
+            .gift-box {
+                border: 2px dashed var(--sage);
+                padding: 40px;
+                margin-top: 20px;
+                display: inline-block;
+                background: var(--cream);
+                border-radius: 10px;
+            }
+    
+            /* --- MOBILE STYLES --- */
+            @media (max-width: 768px) {
+                header h1 { font-size: 3rem; }
+                .hero-image { width: 70%; margin-top: 0; }
+                .section { padding: 50px 5%; }
+                .rsvp-buttons-container { flex-direction: column; align-items: center; }
+                .rsvp-choice-btn { width: 100%; max-width: 300px; }
+                .rsvp-info-grid { gap: 20px; flex-direction: column; }
+                .mobile-amp { display: block; margin: 5px 0; font-size: 2rem; }
+                
+                .rec-card { width: 100%; }
+            }
+    
+            /* RECOMMENDATION LINKS */
+            .rec-card a {
+                text-decoration: none;
+                color: var(--dark-green); /* <--- Dark Green */
+                font-weight: 600;         /* Bold to show it's a link */
+                border-bottom: 1px dotted var(--terracotta); /* Subtle underline */
+                transition: 0.3s;
+            }
+    
+            .rec-card a:hover {
+                color: var(--terracotta); /* Changes color on hover */
+                border-bottom: 1px solid var(--terracotta);
+            }
+        
+            /* MONOGRAM */
+            .monogram-logo {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 48px;
+                border: 0.8px solid var(--dark-green); /* Thin, elegant line */
+                border-radius: 16px / 24px;            /* The tall oval shape */
+                line-height: 0.9;
+                text-decoration: none;
+                transition: transform 0.3s ease;
+                background-color: transparent;
+            }
+
+            .monogram-logo span {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--dark-green);
+                letter-spacing: 0.5px;
+            }
+            
+            .monogram-logo:hover {
+                transform: scale(1.05);
+            }
+
+            /* Adjust nav logo container to fit the oval */
+            .logo {
+                height: 50px;
+                display: flex;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- <nav>
+            <div class="logo">
+                <span data-i18n="nav_logo">A & Y</span>
+            </div>
+            
+            <div class="lang-switch">
+                <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+                <button class="lang-btn" onclick="setLanguage('gr')" id="btn-gr">GR</button>
+            </div>
+        </nav> -->
+
+        <nav>
+            <div class="logo">
+                <a href="#" class="monogram-logo">
+                    <span>A</span>
+                    <span>Y</span>
+                </a>
+            </div>
+            
+            <div class="lang-switch">
+                <button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+                <button class="lang-btn" onclick="setLanguage('gr')" id="btn-gr">GR</button>
+            </div>
+    </nav>
+    
+        <header>
+            <img src="monastery_transparent.png" alt="Wedding Floral Decor" class="hero-image">
+            <h1 data-i18n="names">Anastasia & Yiannis</h1>
+            <div class="date-display">26 . 09 . 2026</div>
+    
+            <div id="countdown">
+                <div class="cd-box"><span class="cd-number" id="days">0</span><span class="cd-label" data-i18n="cd_days">Days</span></div>
+                <div class="cd-box"><span class="cd-number" id="hours">0</span><span class="cd-label" data-i18n="cd_hours">Hours</span></div>
+                <div class="cd-box"><span class="cd-number" id="minutes">0</span><span class="cd-label" data-i18n="cd_mins">Mins</span></div>
+                <div class="cd-box"><span class="cd-number" id="seconds">0</span><span class="cd-label" data-i18n="cd_secs">Secs</span></div>
+            </div>
+        </header>
+    
+        <section class="section">
+            <h2 data-i18n="invite_title">The Wedding</h2>
+            <p class="invite-text" data-i18n="invite_msg">
+                Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.
+            </p>
+            
+            <div class="rsvp-info-grid">
+                <div class="rsvp-info-item">
+                    <div class="rsvp-info-label" data-i18n="rsvp_date_label">DATE</div>
+                    <div class="rsvp-info-value"><i class="far fa-calendar-alt"></i> <span data-i18n="rsvp_date_val">Sep 26, 2026</span></div>
+                </div>
+                <div class="rsvp-info-item">
+                    <div class="rsvp-info-label" data-i18n="rsvp_loc_label">LOCATION</div>
+                    <div class="rsvp-info-value"><i class="fas fa-map-marker-alt"></i> <span data-i18n="rsvp_loc_val">Thessaloniki</span></div>
+                </div>
+            </div>
+    
+            <div style="font-size: 1.1rem; color: var(--dark-green); font-weight: bold; margin-bottom: 20px;">
+                <i class="far fa-calendar-check"></i> <span data-i18n="rsvp_deadline">RSVP by July 31st, 2026</span>
+            </div>
+    
+            <div class="rsvp-buttons-container">
+                <button class="rsvp-choice-btn btn-yes" onclick="openForm('yes')" data-i18n="btn_yes">Yes, we will attend!</button>
+                <button class="rsvp-choice-btn btn-no" onclick="openForm('no')" data-i18n="btn_no">Unfortunately, we cannot make it</button>
+            </div>
+    
+            <form id="rsvp-form-container" action="https://formspree.io/f/mdakonvp" method="POST">
+                
+                <input type="hidden" name="_subject" value="OurWedding - RSVP Submission">
+                <input type="hidden" name="Attendance Status" id="hidden-status">
+    
+                <div class="form-group">
+                    <label class="form-label" data-i18n="label_name">Full Name</label>
+                    <input type="text" name="Name" class="form-input" required>
+                </div>
+    
+                <div class="form-group" id="guests-group">
+                    <label class="form-label" data-i18n="label_guests">Number of Guests</label>
+                    <input type="number" name="Guests" class="form-input" min="1">
+                </div>
+    
+                <div class="form-group">
+                    <label class="form-label" data-i18n="label_note">Message</label>
+                    <textarea name="Note" class="form-input" rows="3"></textarea>
+                </div>
+    
+                <button type="submit" class="submit-btn" data-i18n="btn_submit">Send RSVP</button>
+            </form>
+    
+        </section>
+    
+        <section class="section" style="background-color: white;">
+            <h2 data-i18n="schedule_title">Schedule of Events</h2>
+            
+            <div class="timeline-item">
+                <span class="time"><i class="far fa-clock"></i> 17:00 - 18:00</span>
+                <div class="venue-name" data-i18n="ceremony_title">The Ceremony</div>
+                
+                <a href="https://maps.app.goo.gl/ez5Ew21iR5VfBcbQA" target="_blank" class="address-link">
+                    <i class="fas fa-map-marker-alt" style="color:var(--dark-green); margin-right:5px;"></i> 
+                    <span data-i18n="ceremony_loc">Monastery of Saint Anastasia, Thessaloniki</span>
+                </a>
+                
+                <p data-i18n="ceremony_desc">Standing just outside the city of Thessaloniki, our ceremony will take place in this historic monastery, founded in 888 AD. For your convenience, there is ample parking and a cafe at the entrance.</p>
+            </div>
+    
+            <div class="timeline-item">
+                <span class="time"><i class="far fa-clock"></i> 19:00 - 03:00</span>
+                <div class="venue-name" data-i18n="party_title">The Reception</div>
+                
+                <a href="https://maps.app.goo.gl/Pv3ca4ePQ3B812GBA" target="_blank" class="address-link">
+                    <i class="fas fa-map-marker-alt" style="color:var(--dark-green); margin-right:5px;"></i> 
+                    <span data-i18n="party_loc">Polis Convention Center</span>
+                </a>
+    
+                <p data-i18n="party_desc">
+                    Buffet dinner, soft drinks, beers & wines. 
+                    Followed by Greek dances, party hits, and an open bar with cocktails. 
+                    Late night snacks will be served around 02:00 to help us finish the party strong!<br><br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.
+                </p>
+            </div>
+        </section>
+    
+        <section class="section">
+            <h2 data-i18n="tips_title">Thessaloniki Guide</h2>
+            <p data-i18n="tips_subtitle">We want you to love our city as much as we do. Here are our top picks.</p>
+            
+            <div class="rec-container">
+                <div class="rec-card">
+                    <h3 data-i18n="bride_favs"><i class="fas fa-heart" style="color:var(--terracotta)"></i> Anastasia's Favourites</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-ice-cream"></i> 
+                            <a href="https://maps.app.goo.gl/MdktxpCkymZ9UnKY9" target="_blank">Choureál (Profiterole)</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-coffee"></i> 
+                            <a href="https://maps.app.goo.gl/WsCLt1SGrnkUwBnEA" target="_blank">ERGON Agora (Brunch)</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-camera"></i> 
+                            <a href="https://maps.app.goo.gl/ZY68RuYzRQt5HRUN6" target="_blank">Sunset Spot: Aretsou Marina</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rec-card">
+                    <h3 data-i18n="groom_favs"><i class="fas fa-heart" style="color:var(--dark-green)"></i> Yiannis' Favourites</h3>
+                    <ul>
+                         <li>
+                            <i class="fas fa-mug-hot"></i> 
+                            <a href="https://maps.app.goo.gl/VxSVCtqSuutPGDYeA" target="_blank">SHARK (Try a freddo espresso)</a>
+                        </li>
+                         <li>
+                            <i class="fas fa-martini-glass-citrus"></i> 
+                            <a href="https://maps.app.goo.gl/w5HeJBiPzsuKSrJj9" target="_blank">Dentro sto Bar (Cocktails & live music)</a>
+                        </li>
+                         <li>
+                            <i class="fas fa-plate-wheat"></i> 
+                            <a href="https://maps.app.goo.gl/pd5uvLxuoyszJNWL7" target="_blank">Akrovatis (Cretan restaurant)</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rec-card">
+                    <h3 data-i18n="bestman_favs"><i class="fas fa-glass-martini-alt"></i> Best Man's Bar Picks</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-cocktail"></i> 
+                            <a href="https://maps.app.goo.gl/BZFpTZ7jcuBVYtjJ7" target="_blank">On rooftop bar (cocktails)</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-beer-mug-empty"></i> 
+                            <a href="https://maps.app.goo.gl/ZmRLx7ELQg7dkeyW7" target="_blank">Bars at Al. Svolou</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-moon"></i> 
+                            <a href="https://maps.app.goo.gl/A6cj3csdaRJB8RWJ6" target="_blank">Late night: Ladadika</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- <div class="rec-card">
+                    <h3 data-i18n="travel_info_title"><i class="fas fa-plane"></i> Travel & Stay</h3>
+                    <ul data-i18n="travel_list">
+                        <li><i class="fas fa-bed"></i> <strong>Hotels:</strong>  City Hotel, Daios, Electra Palace</li>
+                        <li><i class="fas fa-car"></i> <strong>Transport:</strong>  Renting a car is recommended.</li>
+                        <li><i class="fas fa-calendar-alt"></i> <strong>Tip:</strong>  Book early for September!</li>
+                    </ul>
+                </div> -->
+            </div>
+        </section>
+        
+        <section class="section" style="background-color: white;">
+            <h2 data-i18n="gift_title">Wedding Gifts</h2>
+            <p data-i18n="gift_msg">What matters most to us is sharing our joy and happiness with you! However, if you wish to spoil us a little extra, you can make a contribution to the account below!</p>
+            
+            <div class="gift-box">
+                <i class="fas fa-gift" style="font-size: 2rem; color: var(--dark-green); margin-bottom: 20px;"></i>
+                <p id="gift-details">
+                    </p>
+            </div>
+        </section>
+    
+        <footer style="padding: 40px; text-align: center; background-color: var(--sage); color: white;">
+            <p>Anastasia & Yiannis | 26.09.2026</p>
+        </footer>
+
+    
+        <script>
+            // --- TRANSLATIONS ---
+            const translations = {
+                en: {
+                    nav_logo: "A & Y",
+                    names: "Anastasia <span class='mobile-amp'>&</span> Yiannis",
+                    cd_days: "Days", cd_hours: "Hours", cd_mins: "Mins", cd_secs: "Secs",
+                    invite_title: "The Wedding",
+                    invite_msg: "Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.",
+                    rsvp_deadline: "Please RSVP by July 31st, 2026",
+                    // RSVP TEXT
+                    rsvp_date_label: "DATE",
+                    rsvp_date_val: "Sep 26, 2026",
+                    rsvp_loc_label: "LOCATION",
+                    rsvp_loc_val: "Thessaloniki, Greece",
+                    btn_yes: "Yes, we will attend!",
+                    btn_no: "Unfortunately, we cannot make it",
+                    label_name: "Full Name",
+                    label_guests: "Number of Guests",
+                    label_note: "Message", 
+                    btn_submit: "Send RSVP",
+                    
+                    schedule_title: "Schedule of Events",
+                    ceremony_title: "The Ceremony",
+                    ceremony_loc: "Monastery of Saint Anastasia, Thessaloniki",
+                    ceremony_desc: "Standing just outside the city of Thessaloniki, our ceremony will take place in this historic monastery, founded in 888 AD. For your convenience, there is ample parking and a cafe at the entrance.",
+                    party_title: "The Reception",
+                    party_loc: "Polis Convention Center",
+                    party_desc: "Join us for a feast! Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00 to help us finish the party strong!<br><br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.",
+                    tips_title: "Thessaloniki Guide",
+                    tips_subtitle: "We want you to love our city as much as we do. Here are our top picks.",
+                    bride_favs: "<i class='fas fa-heart' style='color:var(--terracotta)'></i> The Bride's",
+                    groom_favs: "<i class='fas fa-heart' style='color:var(--dark-green)'></i> The Groom's",
+                    bestman_favs: "<i class='fas fa-glass-martini-alt'></i> The Best Man's",
+                    travel_info_title: "<i class='fas fa-plane'></i> Travel & Stay",
+                    travel_list: "<li><i class='fas fa-bed'></i> <strong>Hotels:</strong> Electra Palace, Makedonia Palace, September Hotel</li><li><i class='fas fa-car'></i> <strong>Transport:</strong> Renting a car is recommended.</li><li><i class='fas fa-calendar-alt'></i> <strong>Tip:</strong> Book early for September!</li>",
+                    gift_title: "Wedding Gifts",
+                    gift_msg: "What matters most to us is sharing our joy and happiness with you! However, if you wish to spoil us a little extra, you can make a contribution to the account below!",
+                    bank_details: "<strong>UK Bank Account</strong><br>Sort Code: 20-32-06<br>Account: 30479853<br>Name: Ioannis Kalliantzis"
+                },
+                gr: {
+                    nav_logo: "Α & Γ",
+                    names: "Αναστασία <span class='mobile-amp'>&</span> Γιάννης",
+                    cd_days: "Ημέρες", cd_hours: "Ώρες", cd_mins: "Λεπτά", cd_secs: "Δευτ.",
+                    invite_title: "Ο Γάμος Μας",
+                    invite_msg: "Με ιδιαίτερη χαρά, μαζί με τις οικογένειες μας, σας προσκαλούμε να παρευρεθείτε στο γάμο μας και να γιορτάσετε μαζί μας το ξεκίνημα της κοινής μας ζωής.",
+                    rsvp_deadline: "Παρακαλούμε απαντήστε έως 31 Ιουλίου 2026",
+                    // RSVP TEXT
+                    rsvp_date_label: "ΗΜΕΡΟΜΗΝΙΑ",
+                    rsvp_date_val: "26 Σεπτ. 2026",
+                    rsvp_loc_label: "ΤΟΠΟΘΕΣΙΑ",
+                    rsvp_loc_val: "Θεσσαλονίκη",
+                    btn_yes: "Ναι, θα παρευρεθούμε!",
+                    btn_no: "Δυστυχώς, δε θα μπορέσουμε!",
+                    label_name: "Ονοματεπώνυμο",
+                    label_guests: "Αριθμός Ατόμων",
+                    label_note: "Μήνυμα", 
+                    btn_submit: "Αποστολή",
+                    
+                    schedule_title: "Το Πρόγραμμα",
+                    ceremony_title: "Η Τελετή",
+                    ceremony_loc: "Μοναστήρι Αγίας Αναστασίας, Θεσσαλονίκη",
+                    ceremony_desc: "Λίγο έξω από τη Θεσσαλονίκη, το μυστήριο θα τελεστεί σε αυτό το ιστορικό μοναστήρι του 888 μ.Χ. Στην είσοδο υπάρχει άνετος χώρος στάθμευσης καθώς και αναψυκτήριο για τους καλεσμένους.",
+                    party_title: "Το Γλέντι",
+                    party_loc: "Polis Convention Center",
+                    party_desc: "Θα ακολουθήσει δείπνο σε μπουφέ με αναψυκτικά, μπύρες και κρασί. Η βραδιά θα συνεχιστεί με παραδοσιακούς χορούς, πάρτι και open bar με cocktails. Late night snacks θα σερβιριστούν γύρω στις 02:00 για να κλείσουμε το πάρτι δυνατά!<br><br>Η αίθουσα δεξίωσης είναι λίγα χιλιόμετρα μακριά από το μοναστήρι της Αγίας Αναστασίας. Η πρόσβαση με το αυτοκίνητο είναι πολύ εύκολη κι υπάρχει μεγάλο parking έξω ακριβώς από τον χώρο.",
+                    tips_title: "Τα αγαπημένα μας σημεία",
+                    tips_subtitle: "Μερικές προτάσεις για να απολαύσετε την Θεσσαλονίκη.",
+                    bride_favs: "<i class='fas fa-heart' style='color:var(--terracotta)'></i> Της Νύφης",
+                    groom_favs: "<i class='fas fa-heart' style='color:var(--dark-green)'></i> Του Γαμπρού",
+                    bestman_favs: "<i class='fas fa-glass-martini-alt'></i> Του Κουμπάρου",
+                    travel_info_title: "<i class='fas fa-plane'></i> Διαμονή & Μετακίνηση",
+                    travel_list: "<li><i class='fas fa-bed'></i> <strong>Ξενοδοχεία:</strong> City Hotel, Daios, Electra Palace</li><li><i class='fas fa-car'></i> <strong>Μετακίνηση:</strong> Προτείνεται η ενοικίαση αυτοκινήτου για το μοναστήρι.</li>",
+                    gift_title: "Δώρα Γάμου",
+                    gift_msg: "Αυτό που πραγματικά μας ενδιαφέρει είναι να μοιραστούμε μαζί σας την χαρά και την ευτυχία μας! Αν όμως θέλετε να μας κακομάθετε λίγο παραπάνω, μπορείτε να κάνετε την κατάθεση σας στον παρακάτω λογαριασμό!",
+                    bank_details: "<strong>Τραπεζικός Λογαριασμός (IBAN)</strong><br>GR0301407010701002340039634<br>Τράπεζα Alphabank<br>Δικαιούχοι: Αναστασία Φουδούλη"
+                }
+            };
+    
+            // --- LANGUAGE SWITCHER ---
+            function setLanguage(lang) {
+                document.getElementById('btn-en').classList.remove('active');
+                document.getElementById('btn-gr').classList.remove('active');
+                document.getElementById('btn-' + lang).classList.add('active');
+    
+                const elements = document.querySelectorAll('[data-i18n]');
+                elements.forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
+                        el.innerHTML = translations[lang][key]; 
+                    }
+                });
+    
+                document.getElementById('gift-details').innerHTML = translations[lang]['bank_details'];
+    
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set('lang', lang);
+                window.history.pushState({}, '', newUrl);
+            }
+    
+            // --- RSVP FORM LOGIC ---
+            function openForm(choice) {
+                const form = document.getElementById('rsvp-form-container');
+                const guestsGroup = document.getElementById('guests-group');
+                const hiddenStatus = document.getElementById('hidden-status');
+                
+                // Show the form
+                form.style.display = 'block';
+    
+                if (choice === 'yes') {
+                    guestsGroup.style.display = 'block';
+                    hiddenStatus.value = "ATTENDING (YES)";
+                    document.querySelector('.btn-yes').style.backgroundColor = '#3a4a2e';
+                    document.querySelector('.btn-no').style.backgroundColor = 'transparent';
+                } else {
+                    guestsGroup.style.display = 'none';
+                    hiddenStatus.value = "NOT ATTENDING (NO)";
+                    document.querySelector('.btn-no').style.backgroundColor = '#e0e0e0';
+                    document.querySelector('.btn-yes').style.backgroundColor = 'var(--dark-green)';
+                }
+            }
+    
+            // --- COUNTDOWN LOGIC ---
+            const weddingDate = new Date("September 26, 2026 17:00:00").getTime();
+    
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+    
+                if (distance < 0) {
+                    document.getElementById("countdown").innerHTML = "HAPPILY MARRIED!";
+                    return;
+                }
+    
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+                document.getElementById("days").innerText = days;
+                document.getElementById("hours").innerText = hours;
+                document.getElementById("minutes").innerText = minutes;
+                document.getElementById("seconds").innerText = seconds;
+            }
+    
+            setInterval(updateCountdown, 1000);
+            updateCountdown(); 
+    
+            window.onload = function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const langParam = urlParams.get('lang');
+                if (langParam === 'gr') { setLanguage('gr'); } else { setLanguage('en'); }
+            };
+        </script>
+    </body>
+    </html>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+//  ENVELOPE DRAWING
+// ═══════════════════════════════════════
+const W=480, H=320, CX=W/2;
+const FL_Y=H*0.20, FR_Y=H*0.20, TIP_Y=H*0.60, RF_Y=H*0.16;
+
+function drawFlapPath(ctx){
+  ctx.moveTo(0,FL_Y); ctx.lineTo(CX,TIP_Y); ctx.lineTo(W,FR_Y);
+}
+function drawFlapShape(ctx){
+  ctx.moveTo(0,0); ctx.lineTo(W,0); ctx.lineTo(W,FR_Y);
+  ctx.lineTo(CX,TIP_Y); ctx.lineTo(0,FL_Y); ctx.closePath();
+}
+function mkRng(seed){
+  return function(){
+    seed|=0; seed=seed+0x6D2B79F5|0;
+    var t=Math.imul(seed^seed>>>15,1|seed);
+    t=t+Math.imul(t^t>>>7,61|t)^t;
+    return((t^t>>>14)>>>0)/4294967296;
+  };
+}
+function makeTexture(w,h){
+  const oc=document.createElement('canvas'); oc.width=w; oc.height=h;
+  const c=oc.getContext('2d');
+  const R=44,G=71,B=22;
+  const img=c.createImageData(w,h); const d=img.data;
+  function hash(n){let x=Math.sin(n*137+241.9)*43758.5;return x-Math.floor(x);}
+  function h2(x,y){return hash(x*137+y*241.9);}
+  function sn(x,y,sc){
+    const xi=Math.floor(x/sc),yi=Math.floor(y/sc),xf=x/sc-xi,yf=y/sc-yi;
+    const sx=xf*xf*(3-2*xf),sy=yf*yf*(3-2*yf);
+    return h2(xi,yi)*(1-sx)*(1-sy)+h2(xi+1,yi)*sx*(1-sy)+h2(xi,yi+1)*(1-sx)*sy+h2(xi+1,yi+1)*sx*sy;
+  }
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+    const n=sn(x,y,2.2)*0.45+sn(x,y,6)*0.30+sn(x,y,18)*0.15+sn(x,y,50)*0.10;
+    const v=(n-0.5)*16; const i=(y*w+x)*4;
+    d[i]=Math.max(0,Math.min(255,R+v));
+    d[i+1]=Math.max(0,Math.min(255,G+v));
+    d[i+2]=Math.max(0,Math.min(255,B+v));
+    d[i+3]=255;
+  }
+  c.putImageData(img,0,0);
+  const rng=mkRng(63);
+  for(let i=0;i<18000;i++){
+    const x=rng()*w,y=rng()*h,len=rng()*2.5+0.4,angle=rng()*Math.PI*2;
+    c.beginPath();c.moveTo(x,y);c.lineTo(x+Math.cos(angle)*len,y+Math.sin(angle)*len);
+    c.strokeStyle=rng()>0.48?`rgba(0,0,0,${0.025+rng()*0.085})`:`rgba(255,255,255,${0.01+rng()*0.035})`;
+    c.lineWidth=0.25+rng()*0.4;c.stroke();
+  }
+  return oc;
+}
+
+const tex = makeTexture(W,H);
+const cv  = document.getElementById('real');
+const ctx = cv.getContext('2d');
+
+function drawEnvelopeBody(){
+  ctx.save();
+  ctx.beginPath(); ctx.roundRect(0,0,W,H,5); ctx.clip();
+  ctx.drawImage(tex,0,0);
+  ctx.save(); ctx.beginPath();
+  ctx.moveTo(0,FL_Y);ctx.lineTo(0,H);ctx.lineTo(CX,TIP_Y);ctx.closePath();
+  ctx.clip();
+  const gL=ctx.createLinearGradient(0,H/2,W*0.45,H/2);
+  gL.addColorStop(0,'rgba(0,0,0,0.15)');gL.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=gL;ctx.fillRect(0,0,W,H); ctx.restore();
+  ctx.save(); ctx.beginPath();
+  ctx.moveTo(W,FR_Y);ctx.lineTo(W,H);ctx.lineTo(CX,TIP_Y);ctx.closePath();
+  ctx.clip();
+  const gR=ctx.createLinearGradient(W,H/2,W*0.55,H/2);
+  gR.addColorStop(0,'rgba(0,0,0,0.13)');gR.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=gR;ctx.fillRect(0,0,W,H); ctx.restore();
+  ctx.save(); ctx.beginPath();
+  ctx.moveTo(0,H);ctx.lineTo(W,H);ctx.lineTo(CX,TIP_Y);ctx.closePath();
+  ctx.clip();
+  const gB=ctx.createLinearGradient(CX,H,CX,TIP_Y);
+  gB.addColorStop(0,'rgba(0,0,0,0.18)');gB.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=gB;ctx.fillRect(0,0,W,H); ctx.restore();
+  ctx.restore();
+}
+
+const flapCv = document.createElement('canvas');
+flapCv.width=W; flapCv.height=H;
+flapCv.style.cssText=`
+  position:absolute;top:0;left:0;width:480px;height:320px;
+  pointer-events:none;z-index:3;
+  transform-origin:center top;
+  transform:rotateX(0deg);
+  transition:transform 0.9s cubic-bezier(0.4,0,0.2,1);
+  border-radius:5px;
+`;
+const fc = flapCv.getContext('2d');
+
+function drawFlap(){
+  fc.clearRect(0,0,W,H);
+  fc.save();
+  fc.beginPath(); drawFlapShape(fc); fc.clip();
+  fc.drawImage(tex,0,0);
+  const gF=fc.createLinearGradient(CX,0,CX,TIP_Y);
+  gF.addColorStop(0,'rgba(255,255,255,0.09)');gF.addColorStop(1,'rgba(0,0,0,0.02)');
+  fc.fillStyle=gF;fc.fillRect(0,0,W,H);
+  const MX=CX,MY=H*0.12,RW=20,RH=28;
+  fc.beginPath();fc.ellipse(MX+0.5,MY+0.9,RW,RH,0,0,Math.PI*2);
+  fc.strokeStyle='rgba(0,0,0,0.32)';fc.lineWidth=1.4;fc.stroke();
+  fc.beginPath();fc.ellipse(MX-0.4,MY-0.6,RW,RH,0,0,Math.PI*2);
+  fc.strokeStyle='rgba(255,255,255,0.20)';fc.lineWidth=0.8;fc.stroke();
+  function embossLetter(txt,x,y,size){
+    fc.font=`300 ${size}px 'Cormorant Garamond',serif`;
+    fc.textAlign='center';fc.textBaseline='middle';
+    fc.fillStyle='rgba(0,0,0,0.42)';fc.fillText(txt,x+0.6,y+0.9);
+    fc.fillStyle='rgba(255,255,255,0.22)';fc.fillText(txt,x-0.4,y-0.6);
+    fc.fillStyle='rgba(0,0,0,0.08)';fc.fillText(txt,x,y);
+  }
+  embossLetter('A',MX,MY-8,13);
+  embossLetter('Y',MX,MY+9,13);
+  const vign=fc.createRadialGradient(CX,H/2,Math.min(W,H)*0.2,CX,H/2,Math.max(W,H)*0.72);
+  vign.addColorStop(0,'rgba(0,0,0,0)');vign.addColorStop(1,'rgba(0,0,0,0.22)');
+  fc.fillStyle=vign;fc.fillRect(0,0,W,H);
+  fc.restore();
+}
+
+const wrapper = document.getElementById('env-wrapper');
+wrapper.style.position='relative';
+drawEnvelopeBody();
+drawFlap();
+wrapper.appendChild(flapCv);
+wrapper.style.perspective='900px';
+
+// ═══════════════════════════════════════
+//  ANIMATION
+// ═══════════════════════════════════════
+const invitation  = document.getElementById('invitation');
+const overlay     = document.getElementById('fade-overlay');
+const placeholder = document.getElementById('placeholder-page');
+
+document.body.style.cursor = 'pointer';
+let animationStarted = false;
+
+function startAnimation() {
+  if (animationStarted) return;
+  animationStarted = true;
+  document.body.style.cursor = 'default';
+  flapCv.style.transition = 'transform 1.0s cubic-bezier(0.4,0,0.2,1)';
+  flapCv.style.transform  = 'rotateX(-160deg)';
+  setTimeout(()=>{
+    invitation.style.transition = 'none';
+    invitation.style.opacity = '1';
+    invitation.style.transform = 'translateX(-50%) translateY(0px)';
+    invitation.offsetHeight;
+    invitation.style.transition = 'transform 1.1s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease';
+    invitation.style.transform = 'translateX(-50%) translateY(-180px)';
+    invitation.style.zIndex = '4';
+  }, 800);
+  setTimeout(()=>{ overlay.classList.add('active'); }, 3200);
+  setTimeout(()=>{
+    placeholder.classList.add('show');
+    overlay.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    initWeddingPage();
+  }, 4500);
+}
+
+document.addEventListener('click', startAnimation);
+document.addEventListener('keydown', startAnimation);
+
+// ═══════════════════════════════════════
+//  WEDDING PAGE LOGIC (runs after reveal)
+// ═══════════════════════════════════════
+function initWeddingPage() {
+  // Translations
+  const translations = {
+    en: {
+      nav_logo:"A & Y", names:"Anastasia &amp; Yiannis",
+      cd_days:"Days",cd_hours:"Hours",cd_mins:"Mins",cd_secs:"Secs",
+      invite_title:"The Wedding",
+      invite_msg:"Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.",
+      rsvp_deadline:"Please RSVP by July 31st, 2026",
+      rsvp_date_label:"DATE",rsvp_date_val:"Sep 26, 2026",
+      rsvp_loc_label:"LOCATION",rsvp_loc_val:"Thessaloniki, Greece",
+      btn_yes:"Yes, we will attend!",btn_no:"Unfortunately, we cannot make it",
+      label_name:"Full Name",label_guests:"Number of Guests",label_note:"Message",btn_submit:"Send RSVP",
+      schedule_title:"Schedule of Events",
+      ceremony_title:"The Ceremony",ceremony_loc:"Monastery of Saint Anastasia, Thessaloniki",
+      ceremony_desc:"Standing just outside the city of Thessaloniki, our ceremony will take place in this historic monastery, founded in 888 AD. For your convenience, there is ample parking and a cafe at the entrance.",
+      party_title:"The Reception",party_loc:"Polis Convention Center",
+      party_desc:"Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00!<br><br>The reception venue is located just a few kilometers from the Monastery, easily accessible by car with ample parking.",
+      tips_title:"Thessaloniki Guide",tips_subtitle:"We want you to love our city as much as we do. Here are our top picks.",
+      bride_favs:"<i class='fas fa-heart' style='color:var(--terracotta)'></i> Anastasia's Favourites",
+      groom_favs:"<i class='fas fa-heart' style='color:var(--dark-green)'></i> Yiannis' Favourites",
+      bestman_favs:"<i class='fas fa-glass-martini-alt'></i> Best Man's Bar Picks",
+      travel_info_title:"<i class='fas fa-plane'></i> Travel & Stay",
+      gift_title:"Wedding Gifts",
+      gift_msg:"What matters most to us is sharing our joy with you! If you wish to spoil us a little extra, you can contribute to the account below.",
+      bank_details:"<strong>UK Bank Account</strong><br>Sort Code: 20-32-06<br>Account: 30479853<br>Name: Ioannis Kalliantzis"
+    },
+    gr: {
+      nav_logo:"Α & Γ", names:"Αναστασία &amp; Γιάννης",
+      cd_days:"Ημέρες",cd_hours:"Ώρες",cd_mins:"Λεπτά",cd_secs:"Δευτ.",
+      invite_title:"Ο Γάμος Μας",
+      invite_msg:"Με ιδιαίτερη χαρά, μαζί με τις οικογένειες μας, σας προσκαλούμε να παρευρεθείτε στο γάμο μας.",
+      rsvp_deadline:"Παρακαλούμε απαντήστε έως 31 Ιουλίου 2026",
+      rsvp_date_label:"ΗΜΕΡΟΜΗΝΙΑ",rsvp_date_val:"26 Σεπτ. 2026",
+      rsvp_loc_label:"ΤΟΠΟΘΕΣΙΑ",rsvp_loc_val:"Θεσσαλονίκη",
+      btn_yes:"Ναι, θα παρευρεθούμε!",btn_no:"Δυστυχώς, δε θα μπορέσουμε!",
+      label_name:"Ονοματεπώνυμο",label_guests:"Αριθμός Ατόμων",label_note:"Μήνυμα",btn_submit:"Αποστολή",
+      schedule_title:"Το Πρόγραμμα",
+      ceremony_title:"Η Τελετή",ceremony_loc:"Μοναστήρι Αγίας Αναστασίας, Θεσσαλονίκη",
+      ceremony_desc:"Λίγο έξω από τη Θεσσαλονίκη, το μυστήριο θα τελεστεί σε αυτό το ιστορικό μοναστήρι του 888 μ.Χ.",
+      party_title:"Το Γλέντι",party_loc:"Polis Convention Center",
+      party_desc:"Δείπνο σε μπουφέ με αναψυκτικά, μπύρες και κρασί. Ακολουθούν παραδοσιακοί χοροί, πάρτι και open bar με cocktails.",
+      tips_title:"Τα αγαπημένα μας σημεία στην πόλη",tips_subtitle:"Μερικές προτάσεις για να απολαύσετε την Θεσσαλονίκη.",
+      bride_favs:"<i class='fas fa-heart' style='color:var(--terracotta)'></i> Της Νύφης",
+      groom_favs:"<i class='fas fa-heart' style='color:var(--dark-green)'></i> Του Γαμπρού",
+      bestman_favs:"<i class='fas fa-glass-martini-alt'></i> Του Κουμπάρου",
+      travel_info_title:"<i class='fas fa-plane'></i> Διαμονή & Μετακίνηση",
+      gift_title:"Δώρα Γάμου",
+      gift_msg:"Αυτό που πραγματικά μας ενδιαφέρει είναι να μοιραστούμε μαζί σας την χαρά μας! Αν θέλετε να μας κακομάθετε, μπορείτε να κάνετε κατάθεση στον παρακάτω λογαριασμό.",
+      bank_details:"<strong>Τραπεζικός Λογαριασμός (IBAN)</strong><br>GR0301407010701002340039634<br>Τράπεζα Alphabank<br>Δικαιούχοι: Αναστασία Φουδούλη"
+    }
+  };
+
+  function setLanguage(lang) {
+    document.getElementById('btn-en').classList.toggle('active', lang==='en');
+    document.getElementById('btn-gr').classList.toggle('active', lang==='gr');
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key]) el.innerHTML = translations[lang][key];
+    });
+    document.getElementById('gift-details').innerHTML = translations[lang]['bank_details'];
+  }
+  window.setLanguage = setLanguage;
+
+  function openForm(choice) {
+    const form = document.getElementById('rsvp-form-container');
+    const guestsGroup = document.getElementById('guests-group');
+    const hiddenStatus = document.getElementById('hidden-status');
+    form.style.display = 'block';
+    if (choice === 'yes') {
+      guestsGroup.style.display = 'block';
+      hiddenStatus.value = "ATTENDING (YES)";
+    } else {
+      guestsGroup.style.display = 'none';
+      hiddenStatus.value = "NOT ATTENDING (NO)";
+    }
+  }
+  window.openForm = openForm;
+
+  // Countdown
+  const weddingDate = new Date("September 26, 2026 17:00:00").getTime();
+  function updateCountdown() {
+    const distance = weddingDate - Date.now();
+    if (distance < 0) { document.getElementById("countdown").innerHTML = "HAPPILY MARRIED!"; return; }
+    document.getElementById("days").innerText    = Math.floor(distance/(1000*60*60*24));
+    document.getElementById("hours").innerText   = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    document.getElementById("minutes").innerText = Math.floor((distance%(1000*60*60))/(1000*60));
+    document.getElementById("seconds").innerText = Math.floor((distance%(1000*60))/1000);
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // Default language
+  const lang = new URLSearchParams(window.location.search).get('lang') === 'gr' ? 'gr' : 'en';
+  setLanguage(lang);
+}
+</script>
+</body>
+</html>
