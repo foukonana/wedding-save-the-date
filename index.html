@@ -83,6 +83,16 @@
     overflow: hidden;
     }
 
+    @media (max-width: 520px) {
+    body { padding-top: 18vh; }
+    #envelope-scene { margin-top: 40px; }
+    .envelope-wrapper {
+        transform: scale(0.62);
+        transform-origin: center top;
+        margin-bottom: -120px;
+    }
+    }
+
     /* ══════════════════════════════════════
     PLACEHOLDER / WEDDING PAGE
     ══════════════════════════════════════ */
@@ -191,6 +201,9 @@
     margin-bottom: 5px;
     color: var(--dark-green);
     line-height: 1.1;
+    }
+    #placeholder-page header h1 span {
+        display: inline; /* Keeps them on one line for computers */
     }
     #placeholder-page .date-display {
     font-size: 2rem;
@@ -455,13 +468,37 @@
     }
 
     /* Mobile */
+    /* Name spans — inline on desktop */
+    #placeholder-page .name-part { display: inline; }
+    #placeholder-page .mobile-amp { display: inline; }
+
     @media (max-width: 768px) {
-    #placeholder-page header h1 { font-size: 3rem; }
-    #placeholder-page .hero-image { width: 70%; margin-top: 0; }
-    #placeholder-page .section { padding: 50px 5%; }
-    #placeholder-page .rsvp-buttons-container { flex-direction: column; align-items: center; }
-    #placeholder-page .rsvp-choice-btn { width: 100%; max-width: 300px; }
-    #placeholder-page .rsvp-info-grid { gap: 20px; flex-direction: column; }
+    #placeholder-page header h1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 2.6rem;
+        line-height: 1.2;
+    }
+    #placeholder-page .name-part { display: block; }
+    #placeholder-page .mobile-amp { display: block; font-size: 2rem; margin: 2px 0; }
+    #placeholder-page .hero-image { width: 82%; margin-top: 0; }
+    #placeholder-page .section { padding: 50px 6%; }
+    #placeholder-page .invite-text { font-size: 1.15rem; }
+    #placeholder-page .rsvp-buttons-container { flex-direction: column; align-items: center; gap: 10px; }
+    #placeholder-page .rsvp-choice-btn { width: 100%; max-width: 280px; padding: 11px 20px; font-size: 0.85rem; }
+    #placeholder-page .rsvp-info-grid { gap: 14px; flex-direction: column; margin-bottom: 24px; }
+    #placeholder-page .rsvp-info-label { font-size: 0.7rem; }
+    #placeholder-page .rsvp-info-value { font-size: 1.1rem; }
+    #placeholder-page #rsvp-form-container { padding: 20px; }
+    #placeholder-page .submit-btn { padding: 12px; font-size: 0.9rem; }
+    #placeholder-page .timeline-item { padding: 20px; }
+    /* Countdown — smaller boxes, hide minutes */
+    #placeholder-page #countdown { gap: 8px; margin-top: 25px; }
+    #placeholder-page .cd-box { padding: 10px 8px; min-width: 60px; }
+    #placeholder-page .cd-number { font-size: 1.5rem; }
+    #placeholder-page .cd-label { font-size: 0.6rem; }
+    #placeholder-page .cd-box:nth-child(3) { display: none; }
     }
     </style>
 </head>
@@ -898,16 +935,38 @@
             }
     
             /* --- MOBILE STYLES --- */
+            /* Name spans — inline on desktop */
+            .name-part { display: inline; }
+            .mobile-amp { display: inline; }
+
             @media (max-width: 768px) {
-                header h1 { font-size: 3rem; }
-                .hero-image { width: 70%; margin-top: 0; }
-                .section { padding: 50px 5%; }
-                .rsvp-buttons-container { flex-direction: column; align-items: center; }
-                .rsvp-choice-btn { width: 100%; max-width: 300px; }
-                .rsvp-info-grid { gap: 20px; flex-direction: column; }
-                .mobile-amp { display: block; margin: 5px 0; font-size: 2rem; }
-                
+                header h1 {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-size: 2.6rem;
+                    line-height: 1.2;
+                }
+                .name-part { display: block; }
+                .mobile-amp { display: block; font-size: 2rem; margin: 2px 0; }
+                .hero-image { width: 82%; margin-top: 0; }
+                .section { padding: 50px 6%; }
+                .invite-text { font-size: 1.15rem; }
+                .rsvp-buttons-container { flex-direction: column; align-items: center; gap: 10px; }
+                .rsvp-choice-btn { width: 100%; max-width: 280px; padding: 11px 20px; font-size: 0.85rem; }
+                .rsvp-info-grid { gap: 14px; flex-direction: column; margin-bottom: 24px; }
+                .rsvp-info-label { font-size: 0.7rem; }
+                .rsvp-info-value { font-size: 1.1rem; }
+                #rsvp-form-container { padding: 20px; }
+                .submit-btn { padding: 12px; font-size: 0.9rem; }
+                .timeline-item { padding: 20px; }
                 .rec-card { width: 100%; }
+                /* Countdown — smaller, hide minutes */
+                #countdown { gap: 8px; margin-top: 25px; }
+                .cd-box { padding: 10px 8px; min-width: 60px; }
+                .cd-number { font-size: 1.5rem; }
+                .cd-label { font-size: 0.6rem; }
+                .cd-box:nth-child(3) { display: none; }
             }
     
             /* RECOMMENDATION LINKS */
@@ -1170,7 +1229,7 @@
             const translations = {
                 en: {
                     nav_logo: "A & Y",
-                    names: "Anastasia <span class='mobile-amp'>&</span> Yiannis",
+                    names: "<span class='name-part'>Anastasia</span> <span class='mobile-amp'>&</span> <span class='name-part'>Yiannis</span>",
                     cd_days: "Days", cd_hours: "Hours", cd_mins: "Mins", cd_secs: "Secs",
                     invite_title: "The Wedding",
                     invite_msg: "Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.",
@@ -1207,7 +1266,7 @@
                 },
                 gr: {
                     nav_logo: "Α & Γ",
-                    names: "Αναστασία <span class='mobile-amp'>&</span> Γιάννης",
+                    names: "<span class='name-part'>Αναστασία</span> <span class='mobile-amp'>&</span> <span class='name-part'>Γιάννης</span>",
                     cd_days: "Ημέρες", cd_hours: "Ώρες", cd_mins: "Λεπτά", cd_secs: "Δευτ.",
                     invite_title: "Ο Γάμος Μας",
                     invite_msg: "Με ιδιαίτερη χαρά, μαζί με τις οικογένειες μας, σας προσκαλούμε να παρευρεθείτε στο γάμο μας και να γιορτάσετε μαζί μας το ξεκίνημα της κοινής μας ζωής.",
@@ -1496,7 +1555,7 @@ function initWeddingPage() {
   // Translations
   const translations = {
     en: {
-      nav_logo:"A & Y", names:"Anastasia &amp; Yiannis",
+      nav_logo:"A & Y", names:"<span class='name-part'>Anastasia</span> <span class='mobile-amp'>&</span> <span class='name-part'>Yiannis</span>",
       cd_days:"Days",cd_hours:"Hours",cd_mins:"Mins",cd_secs:"Secs",
       invite_title:"The Wedding",
       invite_msg:"Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.",
@@ -1520,7 +1579,7 @@ function initWeddingPage() {
       bank_details:"<strong>UK Bank Account</strong><br>Sort Code: 20-32-06<br>Account: 30479853<br>Name: Ioannis Kalliantzis"
     },
     gr: {
-      nav_logo:"Α & Γ", names:"Αναστασία &amp; Γιάννης",
+      nav_logo:"Α & Γ", names:"<span class='name-part'>Αναστασία</span> <span class='mobile-amp'>&</span> <span class='name-part'>Γιάννης</span>",
       cd_days:"Ημέρες",cd_hours:"Ώρες",cd_mins:"Λεπτά",cd_secs:"Δευτ.",
       invite_title:"Ο Γάμος Μας",
       invite_msg:"Με ιδιαίτερη χαρά, μαζί με τις οικογένειες μας, σας προσκαλούμε να παρευρεθείτε στο γάμο μας.",
