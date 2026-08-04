@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <style>
     /* ── RESET ── */
     * { margin:0; padding:0; box-sizing:border-box; }
+    html { overflow-x: hidden; max-width: 100%; }
 
     /* ══════════════════════════════════════
     ENVELOPE PAGE
@@ -45,7 +46,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    margin-top: 80px;
+    margin-top: 180px;
     }
 
     .envelope-wrapper {
@@ -97,12 +98,14 @@
     PLACEHOLDER / WEDDING PAGE
     ══════════════════════════════════════ */
     #placeholder-page {
-    display: none;
-    position: fixed;
-    inset: 0;
-    overflow-y: auto;
-    background: var(--cream, #FAF9F6);
-    z-index: 300;
+        display: none;
+        position: fixed;
+        inset: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-width: 100vw;
+        background: var(--cream, #FAF9F6);
+        z-index: 300;
     }
     #placeholder-page.show { display: block; }
 
@@ -111,7 +114,7 @@
     --terracotta: #C06C54;
     --sage: #8A9A5B;
     --cream: #FAF9F6;
-    --text-dark: #2C2C2C;
+    --text-dark: #2C3D1E;
     --text-light: #555555;
     --white: #FFFFFF;
     --dark-green: #4A5E3A;
@@ -130,7 +133,7 @@
     #placeholder-page h4 {
     font-family: 'Arima', cursive;
     color: var(--dark-green);
-    font-weight: 500;
+    font-weight: 300;
     }
 
     /* Nav */
@@ -184,12 +187,12 @@
     align-items: center;
     text-align: center;
     padding: 20px;
-    padding-top: 80px;
+    padding-top: 0px;
     background-color: var(--cream);
     overflow: hidden;
     }
     #placeholder-page .hero-image {
-        width: 700px;         /* This makes it significantly smaller and elegant */
+        width: 400px;         /* This makes it significantly smaller and elegant */
         max-width: 80%;       /* Ensures it fits on mobile screens */
         height: auto;
         margin-bottom: 10px;  /* Space between image and names */
@@ -197,10 +200,15 @@
         animation: fadeIn 1s ease-in;
     }
     #placeholder-page header h1 {
-    font-size: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 3.2rem;
+    font-weight: 500;
+    font-family: 'Arima', cursive;
     margin-bottom: 5px;
     color: var(--dark-green);
-    line-height: 1.1;
+    line-height: 0.9;
+    gap: 0;
     }
     #placeholder-page header h1 span {
         display: inline; /* Keeps them on one line for computers */
@@ -407,14 +415,15 @@
     /* Recommendations */
     #placeholder-page .rec-container {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    flex-direction: row;
+    gap: 24px;
     margin-top: 40px;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: center;
     }
     #placeholder-page .rec-card {
-    width: 100%;
-    max-width: 650px;
+    width: calc(50% - 12px);
+    max-width: 400px;
     background: white;
     padding: 30px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
@@ -469,7 +478,11 @@
 
     /* Mobile */
     /* Name spans — inline on desktop */
-    #placeholder-page .name-part { display: inline; }
+    #placeholder-page .name-part { 
+        display: inline;
+        font-family: 'Arima', cursive;
+        font-weight: 500;
+    }
     #placeholder-page .mobile-amp { display: inline; }
 
     @media (max-width: 768px) {
@@ -480,7 +493,11 @@
         font-size: 2.6rem;
         line-height: 1.2;
     }
-    #placeholder-page .name-part { display: block; }
+    #placeholder-page .name-part { 
+        display: inline;
+        font-family: 'Arima', cursive;
+        font-weight: 500;
+    }
     #placeholder-page .mobile-amp { display: block; font-size: 2rem; margin: 2px 0; }
     #placeholder-page .hero-image { width: 82%; margin-top: 0; }
     #placeholder-page .section { padding: 50px 6%; }
@@ -498,7 +515,7 @@
     #placeholder-page .cd-box { padding: 10px 8px; min-width: 60px; }
     #placeholder-page .cd-number { font-size: 1.5rem; }
     #placeholder-page .cd-label { font-size: 0.6rem; }
-    #placeholder-page .cd-box:nth-child(3) { display: none; }
+    /* #placeholder-page .cd-box:nth-child(3) { display: none; } */
     }
     </style>
 </head>
@@ -513,7 +530,7 @@
         <!-- Invitation card (behind envelope, rises up) -->
         <div id="invitation">
             <div class="card-inner">
-            <img src="save_the_date.png" style="width:100%; display:block; border-radius:4px;">
+            <img src="greek_invitation.PNG" style="width:100%; display:block; border-radius:4px;">
             </div>
         </div>
   
@@ -526,7 +543,6 @@
 <!-- Placeholder page -->
 <div id="placeholder-page">
 
-    <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -641,12 +657,15 @@
             }
     
             header h1 {
-                font-size: 4.5rem;
-                margin-bottom: 5px;
-                color: var(--dark-green);
-                line-height: 1.1;
-                z-index: 2;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 font-family: 'Arima', cursive;
+                font-size: 3.2rem;
+                font-weight: 500;
+                color: var(--dark-green);
+                line-height: 0.9;
+                gap: 0;
             }
     
             .date-display {
@@ -891,12 +910,23 @@
             }
     
             /* --- Lists (Recommendations) - VERTICAL LAYOUT --- */
-            .rec-container {
+            /* .rec-container {
                 display: flex;
                 flex-direction: column;
                 gap: 40px; 
                 margin-top: 40px;
                 align-items: center; 
+            } */
+
+            .rec-container {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .rec-card {
+                width: 100%;
+                max-width: 500px;
             }
             
             .rec-card {
@@ -936,7 +966,11 @@
     
             /* --- MOBILE STYLES --- */
             /* Name spans — inline on desktop */
-            .name-part { display: inline; }
+            .name-part { 
+                display: inline;
+                font-family: 'Arima', cursive;
+                font-weight: 500;
+            }
             .mobile-amp { display: inline; }
 
             @media (max-width: 768px) {
@@ -947,7 +981,11 @@
                     font-size: 2.6rem;
                     line-height: 1.2;
                 }
-                .name-part { display: block; }
+                .name-part { 
+                    display: inline;
+                    font-family: 'Arima', cursive;
+                    font-weight: 500;
+                }
                 .mobile-amp { display: block; font-size: 2rem; margin: 2px 0; }
                 .hero-image { width: 82%; margin-top: 0; }
                 .section { padding: 50px 6%; }
@@ -960,13 +998,22 @@
                 #rsvp-form-container { padding: 20px; }
                 .submit-btn { padding: 12px; font-size: 0.9rem; }
                 .timeline-item { padding: 20px; }
-                .rec-card { width: 100%; }
+                #placeholder-page .rec-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                #placeholder-page .rec-card {
+                    width:85%;
+                    max-width: 400px;
+                }
                 /* Countdown — smaller, hide minutes */
                 #countdown { gap: 8px; margin-top: 25px; }
                 .cd-box { padding: 10px 8px; min-width: 60px; }
                 .cd-number { font-size: 1.5rem; }
                 .cd-label { font-size: 0.6rem; }
-                .cd-box:nth-child(3) { display: none; }
+                /* .cd-box:nth-child(3) { display: none; } */
             }
     
             /* RECOMMENDATION LINKS */
@@ -1017,6 +1064,53 @@
                 display: flex;
                 align-items: center;
             }
+
+            .and-connector {
+                height: 60px;
+                width: auto;
+                position: relative;
+                top: 0px;
+            }
+
+            @media (max-width: 768px) {
+                .and-connector {
+                    height: 40px;
+                }
+            }
+
+            .wedding-eyebrow {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 30px;
+            }
+
+            .eyebrow-text {
+                font-family: 'Arima', cursive;
+                font-size: 1.6rem;
+                font-weight: 500;
+                letter-spacing: 3px;
+                color: var(--terracotta);
+                white-space: nowrap;
+            }
+
+            @media (max-width: 520px) {
+            .eyebrow-text {
+                white-space: normal;
+                font-size: 1.2rem;
+                letter-spacing: 1.5px;
+                text-align: center;
+                }
+            }
+
+            .eyebrow-line {
+                display: block;
+                height: 1px;
+                width: 60px;
+                background: var(--terracotta);
+                opacity: 0.5;
+            }
+
         </style>
     </head>
     <body>
@@ -1033,9 +1127,8 @@
 
         <nav>
             <div class="logo">
-                <a href="#" class="monogram-logo">
-                    <span>A</span>
-                    <span>Y</span>
+                <a href="#">
+                    <img src="save-the-date-logo.png" style="padding-left: -20px; height: 60px; width: auto;">
                 </a>
             </div>
             
@@ -1046,9 +1139,28 @@
     </nav>
     
         <header>
-            <img src="monastery_transparent.png" alt="Wedding Floral Decor" class="hero-image">
-            <h1 data-i18n="names">Anastasia & Yiannis</h1>
-            <div class="date-display">26 . 09 . 2026</div>
+            <!-- <img src="monastery_transparent.png" alt="Wedding Floral Decor" class="hero-image">
+            <!-- <h1 data-i18n="names">Yiannis & Anastasia </h1> -->
+
+            <div class="wedding-eyebrow">
+                <span class="eyebrow-line"></span>
+                <span class="eyebrow-text" data-i18n="title">We're Getting Married</span>
+                <span class="eyebrow-line"></span>
+            </div>
+        
+            <h1>
+                <span class="name-part" data-i18n="name_groom">Yiannis</span>
+                <span class="mobile-amp">
+                    <img src="and-transparent.png" alt="and" class="and-connector">
+                </span>
+                <span class="name-part" data-i18n="name_bride">Anastasia</span>
+            </h1>
+        
+            <div class="wedding-eyebrow" style="margin-top: 40px;">
+                <span class="eyebrow-line"></span>
+                <span class="date-display">26 . 09 . 2026</span>
+                <span class="eyebrow-line"></span>
+            </div>
     
             <div id="countdown">
                 <div class="cd-box"><span class="cd-number" id="days">0</span><span class="cd-label" data-i18n="cd_days">Days</span></div>
@@ -1061,7 +1173,7 @@
         <section class="section">
             <h2 data-i18n="invite_title">The Wedding</h2>
             <p class="invite-text" data-i18n="invite_msg">
-                Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.
+                Together with our families, we joyfully invite you to share in our happiness as we unite in marriage.ß
             </p>
             
             <div class="rsvp-info-grid">
@@ -1134,10 +1246,8 @@
                 </a>
     
                 <p data-i18n="party_desc">
-                    Buffet dinner, soft drinks, beers & wines. 
-                    Followed by Greek dances, party hits, and an open bar with cocktails. 
-                    Late night snacks will be served around 02:00 to help us finish the party strong!<br><br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.
-                </p>
+                    Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00 to help us finish the party strong!
+                    <br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.</p>
             </div>
         </section>
     
@@ -1147,53 +1257,44 @@
             
             <div class="rec-container">
                 <div class="rec-card">
-                    <h3 data-i18n="bride_favs"><i class="fas fa-heart" style="color:var(--terracotta)"></i> Anastasia's Favourites</h3>
+                    <h3 data-i18n="bride_favs"><i class="fas fa-heart" style="color:var(--terracotta)"></i> Anastasia's Picks</h3>
                     <ul>
-                        <li>
-                            <i class="fas fa-ice-cream"></i> 
-                            <a href="https://maps.app.goo.gl/MdktxpCkymZ9UnKY9" target="_blank">Choureál (Profiterole)</a>
-                        </li>
                         <li>
                             <i class="fas fa-coffee"></i> 
-                            <a href="https://maps.app.goo.gl/WsCLt1SGrnkUwBnEA" target="_blank">ERGON Agora (Brunch)</a>
+                            <a href="https://maps.app.goo.gl/WsCLt1SGrnkUwBnEA" target="_blank">Brunch: ERGON Agora</a>
                         </li>
                         <li>
-                            <i class="fas fa-camera"></i> 
-                            <a href="https://maps.app.goo.gl/ZY68RuYzRQt5HRUN6" target="_blank">Sunset Spot: Aretsou Marina</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="rec-card">
-                    <h3 data-i18n="groom_favs"><i class="fas fa-heart" style="color:var(--dark-green)"></i> Yiannis' Favourites</h3>
-                    <ul>
-                         <li>
-                            <i class="fas fa-mug-hot"></i> 
-                            <a href="https://maps.app.goo.gl/VxSVCtqSuutPGDYeA" target="_blank">SHARK (Try a freddo espresso)</a>
-                        </li>
-                         <li>
-                            <i class="fas fa-martini-glass-citrus"></i> 
-                            <a href="https://maps.app.goo.gl/w5HeJBiPzsuKSrJj9" target="_blank">Dentro sto Bar (Cocktails & live music)</a>
-                        </li>
-                         <li>
-                            <i class="fas fa-plate-wheat"></i> 
-                            <a href="https://maps.app.goo.gl/pd5uvLxuoyszJNWL7" target="_blank">Akrovatis (Cretan restaurant)</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="rec-card">
-                    <h3 data-i18n="bestman_favs"><i class="fas fa-glass-martini-alt"></i> Best Man's Bar Picks</h3>
-                    <ul>
-                        <li>
-                            <i class="fas fa-cocktail"></i> 
-                            <a href="https://maps.app.goo.gl/BZFpTZ7jcuBVYtjJ7" target="_blank">On rooftop bar (cocktails)</a>
+                            <i class="fas fa-utensils"></i> 
+                            <a href="https://maps.app.goo.gl/WBh3DKPUNXZCLw8u7" target="_blank">Street food: Laikon</a>
                         </li>
                         <li>
                             <i class="fas fa-beer-mug-empty"></i> 
-                            <a href="https://maps.app.goo.gl/ZmRLx7ELQg7dkeyW7" target="_blank">Bars at Al. Svolou</a>
+                            <a href="https://maps.app.goo.gl/YiF8HggYUuVSb4jg7" target="_blank">Pub: Pulp</a>
                         </li>
                         <li>
-                            <i class="fas fa-moon"></i> 
-                            <a href="https://maps.app.goo.gl/A6cj3csdaRJB8RWJ6" target="_blank">Late night: Ladadika</a>
+                            <i class="fas fa-camera"></i> 
+                            <a href="https://maps.app.goo.gl/LEoTR29i9bZhWHSB8" target="_blank">Sunset Spot: Kastra</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rec-card">
+                    <h3 data-i18n="groom_favs"><i class="fas fa-heart" style="color:var(--dark-green)"></i> Yiannis' Picks</h3>
+                    <ul>
+                         <li>
+                            <i class="fas fa-mug-hot"></i> 
+                            <a href="https://maps.app.goo.gl/5WEJhdhpVz6McqmMA" target="_blank">Coffee Break: Limani</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-ice-cream"></i> 
+                            <a href="https://maps.app.goo.gl/MdktxpCkymZ9UnKY9" target="_blank">Profiterole: Choureál</a>
+                        </li>
+                         <li>
+                            <i class="fas fa-plate-wheat"></i> 
+                            <a href="https://maps.app.goo.gl/PGUhYB7H6DWTtN269" target="_blank">Restaurant: Full tou meze</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-martini-glass-citrus"></i> 
+                            <a href="https://maps.app.goo.gl/WGyXCRGHxH8RdyqM9" target="_blank">Cocktails: Blue cup</a>
                         </li>
                     </ul>
                 </div>
@@ -1229,10 +1330,11 @@
             const translations = {
                 en: {
                     nav_logo: "A & Y",
-                    names: "<span class='name-part'>Anastasia</span> <span class='mobile-amp'>&</span> <span class='name-part'>Yiannis</span>",
+                    // names: "<span class='name-part'>Anastasia</span> <span class='mobile-amp'>&</span> <span class='name-part'>Yiannis</span>",
+                    names: "<span class='name-part'>Anastasia</span> <span class='mobile-amp'><svg viewBox='0 0 120 40' width='120' height='40' xmlns='http://www.w3.org/2000/svg'><path d='M10,30 C30,10 50,35 80,20 C95,13 108,18 115,15' stroke='#C06C54' stroke-width='1.2' fill='none' stroke-linecap='round'/></svg></span> <span class='name-part'>Yiannis</span>",
                     cd_days: "Days", cd_hours: "Hours", cd_mins: "Mins", cd_secs: "Secs",
                     invite_title: "The Wedding",
-                    invite_msg: "Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.",
+                    invite_msg: "Together with our families, we joyfully invite you to share in our happiness as we unite in marriage.",
                     rsvp_deadline: "Please RSVP by July 31st, 2026",
                     // RSVP TEXT
                     rsvp_date_label: "DATE",
@@ -1252,12 +1354,11 @@
                     ceremony_desc: "Standing just outside the city of Thessaloniki, our ceremony will take place in this historic monastery, founded in 888 AD. For your convenience, there is ample parking and a cafe at the entrance.",
                     party_title: "The Reception",
                     party_loc: "Polis Convention Center",
-                    party_desc: "Join us for a feast! Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00 to help us finish the party strong!<br><br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.",
+                    party_desc: "Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00 to help us finish the party strong!<br><br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.",
                     tips_title: "Thessaloniki Guide",
                     tips_subtitle: "We want you to love our city as much as we do. Here are our top picks.",
                     bride_favs: "<i class='fas fa-heart' style='color:var(--terracotta)'></i> The Bride's",
                     groom_favs: "<i class='fas fa-heart' style='color:var(--dark-green)'></i> The Groom's",
-                    bestman_favs: "<i class='fas fa-glass-martini-alt'></i> The Best Man's",
                     travel_info_title: "<i class='fas fa-plane'></i> Travel & Stay",
                     travel_list: "<li><i class='fas fa-bed'></i> <strong>Hotels:</strong> Electra Palace, Makedonia Palace, September Hotel</li><li><i class='fas fa-car'></i> <strong>Transport:</strong> Renting a car is recommended.</li><li><i class='fas fa-calendar-alt'></i> <strong>Tip:</strong> Book early for September!</li>",
                     gift_title: "Wedding Gifts",
@@ -1289,12 +1390,11 @@
                     ceremony_desc: "Λίγο έξω από τη Θεσσαλονίκη, το μυστήριο θα τελεστεί σε αυτό το ιστορικό μοναστήρι του 888 μ.Χ. Στην είσοδο υπάρχει άνετος χώρος στάθμευσης καθώς και αναψυκτήριο για τους καλεσμένους.",
                     party_title: "Το Γλέντι",
                     party_loc: "Polis Convention Center",
-                    party_desc: "Θα ακολουθήσει δείπνο σε μπουφέ με αναψυκτικά, μπύρες και κρασί. Η βραδιά θα συνεχιστεί με παραδοσιακούς χορούς, πάρτι και open bar με cocktails. Late night snacks θα σερβιριστούν γύρω στις 02:00 για να κλείσουμε το πάρτι δυνατά!<br><br>Η αίθουσα δεξίωσης είναι λίγα χιλιόμετρα μακριά από το μοναστήρι της Αγίας Αναστασίας. Η πρόσβαση με το αυτοκίνητο είναι πολύ εύκολη κι υπάρχει μεγάλο parking έξω ακριβώς από τον χώρο.",
+                    party_desc: "Θα ακολουθήσει δείπνο σε μπουφέ με αναψυκτικά, μπύρες και κρασί. Η βραδιά θα συνεχιστεί με παραδοσιακούς χορούς, αγαπημένες επιτυχίες και open bar με cocktails. Γύρω στις 02:00 θα σερβιριστούν σνακ, για να συνεχίσουμε το γλέντι μέχρι αργά!<br><br>Ο χώρος της δεξίωσης βρίσκεται μόλις λίγα χιλιόμετρα από το Μοναστήρι. Η πρόσβαση με αυτοκίνητο είναι εύκολη και υπάρχει άνετος χώρος στάθμευσης ακριβώς έξω από τον χώρο.",
                     tips_title: "Τα αγαπημένα μας σημεία",
                     tips_subtitle: "Μερικές προτάσεις για να απολαύσετε την Θεσσαλονίκη.",
                     bride_favs: "<i class='fas fa-heart' style='color:var(--terracotta)'></i> Της Νύφης",
                     groom_favs: "<i class='fas fa-heart' style='color:var(--dark-green)'></i> Του Γαμπρού",
-                    bestman_favs: "<i class='fas fa-glass-martini-alt'></i> Του Κουμπάρου",
                     travel_info_title: "<i class='fas fa-plane'></i> Διαμονή & Μετακίνηση",
                     travel_list: "<li><i class='fas fa-bed'></i> <strong>Ξενοδοχεία:</strong> City Hotel, Daios, Electra Palace</li><li><i class='fas fa-car'></i> <strong>Μετακίνηση:</strong> Προτείνεται η ενοικίαση αυτοκινήτου για το μοναστήρι.</li>",
                     gift_title: "Δώρα Γάμου",
@@ -1318,7 +1418,17 @@
                 });
     
                 document.getElementById('gift-details').innerHTML = translations[lang]['bank_details'];
-    
+
+                const connector = document.querySelector('.and-connector');
+
+                if (lang === 'gr') {
+                    connector.src = 'greek_and.png';
+                    connector.alt = 'και';
+                } else {
+                    connector.src = 'and-transparent.png';
+                    connector.alt = 'and';
+                }
+
                 const newUrl = new URL(window.location);
                 newUrl.searchParams.set('lang', lang);
                 window.history.pushState({}, '', newUrl);
@@ -1407,7 +1517,7 @@ function mkRng(seed){
 function makeTexture(w,h){
   const oc=document.createElement('canvas'); oc.width=w; oc.height=h;
   const c=oc.getContext('2d');
-  const R=44,G=71,B=22;
+  const R=140,G=150,B=115;
   const img=c.createImageData(w,h); const d=img.data;
   function hash(n){let x=Math.sin(n*137+241.9)*43758.5;return x-Math.floor(x);}
   function h2(x,y){return hash(x*137+y*241.9);}
@@ -1462,6 +1572,23 @@ function drawEnvelopeBody(){
   gB.addColorStop(0,'rgba(0,0,0,0.18)');gB.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=gB;ctx.fillRect(0,0,W,H); ctx.restore();
   ctx.restore();
+  // Flap seam line
+  ctx.beginPath();
+  ctx.moveTo(0, FL_Y);
+  ctx.lineTo(CX, TIP_Y);
+  ctx.lineTo(W, FR_Y);
+  ctx.strokeStyle = 'rgba(0,0,0,0.32)';
+  ctx.lineWidth = 1.8;
+  ctx.stroke();
+
+  // Highlight above the seam (gives it a folded edge feel)
+  ctx.beginPath();
+  ctx.moveTo(0, FL_Y);
+  ctx.lineTo(CX, TIP_Y);
+  ctx.lineTo(W, FR_Y);
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 0.6;
+  ctx.stroke();
 }
 
 const flapCv = document.createElement('canvas');
@@ -1485,19 +1612,19 @@ function drawFlap(){
   gF.addColorStop(0,'rgba(255,255,255,0.09)');gF.addColorStop(1,'rgba(0,0,0,0.02)');
   fc.fillStyle=gF;fc.fillRect(0,0,W,H);
   const MX=CX,MY=H*0.12,RW=20,RH=28;
-  fc.beginPath();fc.ellipse(MX+0.5,MY+0.9,RW,RH,0,0,Math.PI*2);
-  fc.strokeStyle='rgba(0,0,0,0.32)';fc.lineWidth=1.4;fc.stroke();
-  fc.beginPath();fc.ellipse(MX-0.4,MY-0.6,RW,RH,0,0,Math.PI*2);
-  fc.strokeStyle='rgba(255,255,255,0.20)';fc.lineWidth=0.8;fc.stroke();
-  function embossLetter(txt,x,y,size){
-    fc.font=`300 ${size}px 'Cormorant Garamond',serif`;
-    fc.textAlign='center';fc.textBaseline='middle';
-    fc.fillStyle='rgba(0,0,0,0.42)';fc.fillText(txt,x+0.6,y+0.9);
-    fc.fillStyle='rgba(255,255,255,0.22)';fc.fillText(txt,x-0.4,y-0.6);
-    fc.fillStyle='rgba(0,0,0,0.08)';fc.fillText(txt,x,y);
-  }
-  embossLetter('A',MX,MY-8,13);
-  embossLetter('Y',MX,MY+9,13);
+//   fc.beginPath();fc.ellipse(MX+0.5,MY+0.9,RW,RH,0,0,Math.PI*2);
+//   fc.strokeStyle='rgba(0,0,0,0.32)';fc.lineWidth=1.4;fc.stroke();
+//   fc.beginPath();fc.ellipse(MX-0.4,MY-0.6,RW,RH,0,0,Math.PI*2);
+//   fc.strokeStyle='rgba(255,255,255,0.20)';fc.lineWidth=0.8;fc.stroke();
+//   function embossLetter(txt,x,y,size){
+//     fc.font=`300 ${size}px 'Cormorant Garamond',serif`;
+//     fc.textAlign='center';fc.textBaseline='middle';
+//     fc.fillStyle='rgba(0,0,0,0.42)';fc.fillText(txt,x+0.6,y+0.9);
+//     fc.fillStyle='rgba(255,255,255,0.22)';fc.fillText(txt,x-0.4,y-0.6);
+//     fc.fillStyle='rgba(0,0,0,0.08)';fc.fillText(txt,x,y);
+//   }
+//   embossLetter('A',MX,MY-8,13);
+//   embossLetter('Y',MX,MY+9,13);
   const vign=fc.createRadialGradient(CX,H/2,Math.min(W,H)*0.2,CX,H/2,Math.max(W,H)*0.72);
   vign.addColorStop(0,'rgba(0,0,0,0)');vign.addColorStop(1,'rgba(0,0,0,0.22)');
   fc.fillStyle=vign;fc.fillRect(0,0,W,H);
@@ -1540,7 +1667,9 @@ function startAnimation() {
   setTimeout(()=>{
     placeholder.classList.add('show');
     overlay.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    // document.body.style.overflow = 'auto';
+    document.body.style.overflowY = 'auto';
+    document.body.style.overflowX = 'hidden';
     initWeddingPage();
   }, 4500);
 }
@@ -1555,10 +1684,13 @@ function initWeddingPage() {
   // Translations
   const translations = {
     en: {
+      title: "We're Getting Married",
+      name_groom: "Yiannis",
+      name_bride: "Anastasia",
       nav_logo:"A & Y", names:"<span class='name-part'>Anastasia</span> <span class='mobile-amp'>&</span> <span class='name-part'>Yiannis</span>",
       cd_days:"Days",cd_hours:"Hours",cd_mins:"Mins",cd_secs:"Secs",
       invite_title:"The Wedding",
-      invite_msg:"Together with our families, we joyfully invite you to share in our happiness as we unite in marriage. Your presence is the greatest gift of all.",
+      invite_msg:"Together with our families, we joyfully invite you to share in our happiness as we unite in marriage.",
       rsvp_deadline:"Please RSVP by July 31st, 2026",
       rsvp_date_label:"DATE",rsvp_date_val:"Sep 26, 2026",
       rsvp_loc_label:"LOCATION",rsvp_loc_val:"Thessaloniki, Greece",
@@ -1568,19 +1700,21 @@ function initWeddingPage() {
       ceremony_title:"The Ceremony",ceremony_loc:"Monastery of Saint Anastasia, Thessaloniki",
       ceremony_desc:"Standing just outside the city of Thessaloniki, our ceremony will take place in this historic monastery, founded in 888 AD. For your convenience, there is ample parking and a cafe at the entrance.",
       party_title:"The Reception",party_loc:"Polis Convention Center",
-      party_desc:"Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00!<br><br>The reception venue is located just a few kilometers from the Monastery, easily accessible by car with ample parking.",
+      party_desc:"Buffet dinner, soft drinks, beers & wines. Followed by Greek dances, party hits, and an open bar with cocktails. Late night snacks will be served around 02:00 to help us finish the party strong!<br><br>The reception venue is located just a few kilometers from the Monastery. It is easily accessible by car, with ample parking available right outside.",
       tips_title:"Thessaloniki Guide",tips_subtitle:"We want you to love our city as much as we do. Here are our top picks.",
-      bride_favs:"<i class='fas fa-heart' style='color:var(--terracotta)'></i> Anastasia's Favourites",
-      groom_favs:"<i class='fas fa-heart' style='color:var(--dark-green)'></i> Yiannis' Favourites",
-      bestman_favs:"<i class='fas fa-glass-martini-alt'></i> Best Man's Bar Picks",
+      bride_favs:"<i class='fas fa-heart' style='color:var(--terracotta)'></i> Anastasia's Picks",
+      groom_favs:"<i class='fas fa-heart' style='color:var(--dark-green)'></i> Yiannis' Picks",
       travel_info_title:"<i class='fas fa-plane'></i> Travel & Stay",
       gift_title:"Wedding Gifts",
       gift_msg:"What matters most to us is sharing our joy with you! If you wish to spoil us a little extra, you can contribute to the account below.",
       bank_details:"<strong>UK Bank Account</strong><br>Sort Code: 20-32-06<br>Account: 30479853<br>Name: Ioannis Kalliantzis"
     },
     gr: {
+      title: "Παντρευόμαστε!!",
+      name_groom: "Γιάννης",
+      name_bride: "Αναστασία",
       nav_logo:"Α & Γ", names:"<span class='name-part'>Αναστασία</span> <span class='mobile-amp'>&</span> <span class='name-part'>Γιάννης</span>",
-      cd_days:"Ημέρες",cd_hours:"Ώρες",cd_mins:"Λεπτά",cd_secs:"Δευτ.",
+      cd_days:"Ημερες",cd_hours:"Ωρες",cd_mins:"Λεπτα",cd_secs:"Δευτ.",
       invite_title:"Ο Γάμος Μας",
       invite_msg:"Με ιδιαίτερη χαρά, μαζί με τις οικογένειες μας, σας προσκαλούμε να παρευρεθείτε στο γάμο μας.",
       rsvp_deadline:"Παρακαλούμε απαντήστε έως 31 Ιουλίου 2026",
@@ -1590,13 +1724,13 @@ function initWeddingPage() {
       label_name:"Ονοματεπώνυμο",label_guests:"Αριθμός Ατόμων",label_note:"Μήνυμα",btn_submit:"Αποστολή",
       schedule_title:"Το Πρόγραμμα",
       ceremony_title:"Η Τελετή",ceremony_loc:"Μοναστήρι Αγίας Αναστασίας, Θεσσαλονίκη",
-      ceremony_desc:"Λίγο έξω από τη Θεσσαλονίκη, το μυστήριο θα τελεστεί σε αυτό το ιστορικό μοναστήρι του 888 μ.Χ.",
-      party_title:"Το Γλέντι",party_loc:"Polis Convention Center",
-      party_desc:"Δείπνο σε μπουφέ με αναψυκτικά, μπύρες και κρασί. Ακολουθούν παραδοσιακοί χοροί, πάρτι και open bar με cocktails.",
+      ceremony_desc:"Λίγο έξω από τη Θεσσαλονίκη, το μυστήριο θα τελεστεί σε αυτό το ιστορικό μοναστήρι του 888 μ.Χ. Στην είσοδο υπάρχει άνετος χώρος στάθμευσης καθώς και αναψυκτήριο για τους καλεσμένους.",
+      party_title:"Το Γλέντι",
+      party_loc:"Polis Convention Center",
+      party_desc:"Θα ακολουθήσει δείπνο σε μπουφέ με αναψυκτικά, μπύρες και κρασί. Η βραδιά θα συνεχιστεί με παραδοσιακούς χορούς, αγαπημένες επιτυχίες και open bar με cocktails. Γύρω στις 02:00 θα σερβιριστούν σνακ, για να συνεχίσουμε το γλέντι μέχρι αργά!<br><br>Ο χώρος της δεξίωσης βρίσκεται μόλις λίγα χιλιόμετρα από το Μοναστήρι. Η πρόσβαση με αυτοκίνητο είναι εύκολη και υπάρχει άνετος χώρος στάθμευσης ακριβώς έξω από τον χώρο.",
       tips_title:"Τα αγαπημένα μας σημεία στην πόλη",tips_subtitle:"Μερικές προτάσεις για να απολαύσετε την Θεσσαλονίκη.",
       bride_favs:"<i class='fas fa-heart' style='color:var(--terracotta)'></i> Της Νύφης",
       groom_favs:"<i class='fas fa-heart' style='color:var(--dark-green)'></i> Του Γαμπρού",
-      bestman_favs:"<i class='fas fa-glass-martini-alt'></i> Του Κουμπάρου",
       travel_info_title:"<i class='fas fa-plane'></i> Διαμονή & Μετακίνηση",
       gift_title:"Δώρα Γάμου",
       gift_msg:"Αυτό που πραγματικά μας ενδιαφέρει είναι να μοιραστούμε μαζί σας την χαρά μας! Αν θέλετε να μας κακομάθετε, μπορείτε να κάνετε κατάθεση στον παρακάτω λογαριασμό.",
@@ -1612,6 +1746,16 @@ function initWeddingPage() {
       if (translations[lang][key]) el.innerHTML = translations[lang][key];
     });
     document.getElementById('gift-details').innerHTML = translations[lang]['bank_details'];
+
+    const connector = document.querySelector('.and-connector');
+
+    if (lang === 'gr') {
+        connector.src = 'greek_and.png';
+        connector.alt = 'και';
+    } else {
+        connector.src = 'and-transparent.png';
+        connector.alt = 'and';
+    }
   }
   window.setLanguage = setLanguage;
 
